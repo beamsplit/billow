@@ -73,7 +73,7 @@ ROOT_URLCONF = 'billow.urls'
 EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'postmaster@mg.billow.ie'
-EMAIL_HOST_PASSWORD = 'pass'
+EMAIL_HOST_PASSWORD = os.environ['MAILGUN_PW']
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Kate <kate@billow.ie>'
 
