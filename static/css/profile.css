@@ -1,0 +1,16 @@
+/* Profile Section */
+#profile-section {
+    padding: 120px 0;
+}
+#profile-section p {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    color: #fff
+}
+
+
+/* My Bills List */
+
+.my-bills-li {
+    text-align: left;
+}

@@ -1,0 +1,260 @@
+{% extends 'bill_base.html' %}
+
+{% block content %}
+
+
+
+<div class="bill-container col-md-12">
+    
+    <div class="col-md-12">
+    <div class="space col-md-12"></div>
+    
+    <div class="col-md-8">
+        {% if user.is_authenticated %}
+    	<div class="bill-section-title center col-md-1">
+            
+            <form id="post-form" method="post" novalidate>
+                {% csrf_token %}
+                {% for item in form %}
+                    {% ifequal item.name 'favourites' %}
+                        {% for checkbox in item %}
+                            {% ifequal checkbox.choice_label bill.title %}
+                            <!--{{ checkbox.tag }}
+                                {{ checkbox.choice_label }}-->
+                            {% endifequal %}
+                        {% endfor %}
+                    {% endifequal %}
+                {% endfor %}
+
+
+                <button type="submit" class="btn btn-fave"><i id="favourite" class="far {% for person in citizens %}
+                    {% ifequal person.user.username user.username %}
+                    {% for item in person.favourites.all %}
+                    {% ifequal item.title  bill.title %}
+                    fa
+                    {% else %}
+                    {% if forloop.last %}
+                    far
+                    {% endif %}
+                    {% endifequal %}
+                    {% endfor %}
+                    {% endifequal %}
+                    {% endfor %} fa-star" style="color: #DAD716; font-size: 20px; margin-top:-5px;"></i>
+                </button>
+            </form>
+            
+    	</div>
+        {% endif %}
+        <div class="bill-section-title center col-md-11">
+            <h2>{{ bill.title }}</h2>
+            
+        </div>
+        {% ifequal bill.updated True %} <!-- change back to True once done editing!! -->
+        <div class="bill-update col-md-12">
+            <h3>UPDATE! This bill has moved on to {{ bill.stage }}</h3>
+        </div>
+        {% endifequal %}
+    	<div class="bill-description col-md-12">
+    		<h3>Description</h3>
+    		<p>{{ bill.description }}</p>
+    		<div class="space"></div>
+    	</div>
+    	<div class="pro-con hidden">
+    		<div class="pro-con-header col-md-12">
+    			See Both Sides
+    		</div>
+    		<div class="pro col-md-6">
+    			<h3>Pro</h3>
+    			<hr>
+    			<p>"This bill is good" - TD Murphy</p>
+    		</div>
+    		<div class="con col-md-6">
+    			<h3>Con</h3>
+    			<hr>
+    			<p>"Not so sure this is a good idea" - TD O'Brien</p>
+    		</div>
+    	</div>
+    </div>
+    <div class="col-md-4">
+    	<div class="tag-box-title col-md-12">
+    		<h3>Tags</h3>
+            
+    	</div>
+    	<div class="tag-box col-md-12">
+            <!--<div class="tag-pic col-md-2"><i class="fa fa-ambulance" style="font-size:40px; padding:10px 0;"></i></div>-->
+    		{% for category in bill.category.all %} {{ category }}{% if not forloop.last %}, {% endif %}{% endfor %}
+		</div>
+   		<div class="bill-stats-title col-md-12">
+    		<h3>Bill Details</h3>
+    	</div>
+    	<div class="bill-stats col-md-12">
+    		<h3>Sponsors:</h3>
+            <p>{% for name in bill.sponsor.all %} {{ name }}{% if not forloop.last %},{% endif %}{% endfor %}</p>
+    		<h3>Originating House:</h3>
+    		<p>{{ bill.origin }}</p>
+    		<h3>Stage:</h3>
+            <p>{{ bill.stage }} - {{bill.stage.stage_info}}</p>
+    		<!--<div>
+    		<div class="car-container">
+  				<div class="carousel">
+    				<div class="car-item a current-stage">Dáil<br>Stage 1</div>
+    				<div class="car-item b">Dáil<br>Stage 2</div>
+    				<div class="car-item c">Dáil<br>Stage 3</div>
+    				<div class="car-item d">Dáil<br>Stage 4</div>
+    				<div class="car-item e">Dáil<br>Stage 5</div>
+    				<div class="car-item f">Seanad<br>Stage 6</div>
+    				<div class="car-item g">Seanad<br>Stage 7</div>
+    				<div class="car-item h">Seanad<br>Stage 8</div>
+    				<div class="car-item i">Seanad<br>Stage 9</div>
+    				<div class="car-item j">Seanad<br>Stage 10</div>
+    				<div class="car-item k">President<br>Stage 11</div>
+					<div class="car-item l"><img src="../../../static/img/Logo_300px.png" style="height:60%;"></img></div>
+  				</div>
+			</div>
+			<div class="next"><i class="fa fa-angle-right"></i></div>
+			<div class="prev"><i class="fa fa-angle-left"></i></div>
+  			</div>-->
+   		</div>
+    </div>
+    </div>
+    
+    
+ <div class="col-md-12">
+   <div class="col-md-12">   
+    <div class="take-action col-md-12">
+    	<div class="take-action-bar">
+    		<h3> Take Action! </h3>
+    	</div>
+    	<div class="take-action-bar-space col-md-12"></div>
+    	<div class="col-md-12">
+    		<!-- <ul>
+    			<li><input type="radio" name="tab" value="igotnone" onclick="show1();" /> Contact my MP</li>
+    			<li><input type="radio" name="tab" value="igottwo" onclick="show2();" /> Sign a petition</li>
+    		</ul> -->
+    		<div class="col-md-4">
+				<label class="petition-btn" onclick="show1();">Contact my Deputy
+				</label>
+   			</div>
+   			<div class="col-md-4">
+				<label class="petition-btn" onclick="show2();">Sign a Petition
+				</label>
+   			</div>
+   			<div class="col-md-4">
+				<label class="petition-btn" onclick="show3();">Organise Group Action
+				</label>
+   			</div>
+    	</div>
+    	<div class="action-info col-md-12">
+    		<div id="div0" style="text-align: center;">
+				<i class="fa fa-bolt" style="font-size:100px;"></i>
+			</div>
+    		<div id="div1" style="display:none;">
+                <p>Select your constituency:</p>
+    			<!-- CONTACT DEPUTY FORM > take_action_1.html -->
+                    <select id="ridings" class="riding-list">
+                        <option value="">------</option>
+                        <option value="1">Carlow-Kilkenny</option>
+                        <option value="35">Cavan–Monaghan</option>
+                        <option value="15">Clare</option>
+                        <option value="13">Cork East</option>
+                        <option value="23">Cork North-Central</option>
+                        <option value="27">Cork North-West</option>
+                        <option value="14">Cork South-Central</option>
+                        <option value="38">Cork South-West</option>
+                        <option value="20">Donegal</option>
+                        <option value="10">Dublin Bay North</option>
+                        <option value="31">Dublin Bay South</option>
+                        <option value="6">Dublin Central</option>
+                        <option value="8">Dublin Fingal</option>
+                        <option value="36">Dublin Mid-West</option>
+                        <option value="12">Dublin North-West</option>
+                        <option value="17">Dublin Rathdown</option>
+                        <option value="39">Dublin South-Central</option>
+                        <option value="37">Dublin South-West</option>
+                        <option value="22">Dublin West</option>
+                        <option value="3">Dún Laoghaire</option>
+                        <option value="7">Galway East</option>
+                        <option value="21">Galway West</option>
+                        <option value="34">Kerry</option>
+                        <option value="4">Kildare North</option>
+                        <option value="33">Kildare South</option>
+                        <option value="16">Laois</option>
+                        <option value="30">Limerick City</option>
+                        <option value="29">Limerick County</option>
+                        <option value="5">Longford–Westmeath</option>
+                        <option value="2">Louth</option>
+                        <option value="9">Mayo</option>
+                        <option value="28">Meath East</option>
+                        <option value="24">Meath West</option>
+                        <option value="32">Offaly</option>
+                        <option value="11">Roscommon–Galway</option>
+                        <option value="26">Sligo–Leitrim</option>
+                        <option value="19">Tipperary</option>
+                        <option value="25">Waterford</option>
+                        <option value="18">Wexford</option>
+                        <option value="0">Wicklow</option>
+                    </select>
+                    {% for place in constituency %}
+                    <div id="{{ place.con_id }}" class="tdsinfo" style="display:none"><p>
+                        <p>Click on TD for contact information:</p>
+                        {% for dep in td %}{% ifequal place.name dep.constituency.name %}
+                        <a href="{% url 'bill:deputy-detail' dep.pk %}"><button class="col-md-12 petition-btn">{{ dep.name }}</button></a>
+                        
+                        {% endifequal %}{% endfor %}
+                        
+                        <p></div>
+                    {% endfor %}
+			</div>
+   			<div id="div2" style="display:none;">
+				<p>Petition Information</p>
+				<a href="https://my.uplift.ie/" style="color: #222;"><button class="col-md-12 petition-btn">Start A Petition</button></a>
+				<div class="little-space"></div>
+				<a href="http://petitions.oireachtas.ie/online_petitions.nsf/PetitionForm?openform&type=screening+page&lang=EN&r=0.242465857938506" style="color: #222;"><button class="col-md-12 petition-btn">Submit My Petition Online</button></a>
+			</div>
+   			<div id="div3" style="display:none;">
+				<p>What would you like to do?</p>
+                
+                
+                {% for movement in bill.movement.all %}
+                <div class="comment col-md-12" style="background-color:blue;color:white; margin:20px; padding:20px;">
+                    <div class="date">
+                        {{ movement.created_date }}
+                    </div>
+                    <strong>{{ movement.author }}</strong>
+                    <p>{{movement.text|linebreaks }}</p>
+                </div>
+                {% empty %}
+                <p>No movements here yet :(</p>
+                {% endfor %}
+                
+                <a class="btn btn-default" href="{% url 'bill:add_movement' pk=bill.id %}">Add movement</a>
+			</div>
+    	</div>
+    	<!--<div class="col-md-4">
+            <div class="achievement-box"> <span class="count" style="font-size:50px;">42</span>
+        	<h4>People have taken action</h4>
+        	</div>
+    	</div>
+    	<p></p>
+    	 <div class="action-wrapper col-md-12">
+    	<a href="../tags.html" class="btn action-btn-default btn-lg page-scroll">TAKE ACTION!</a>
+    	</div> -->
+    </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+

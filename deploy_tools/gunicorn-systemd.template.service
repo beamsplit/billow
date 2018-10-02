@@ -1,0 +1,15 @@
+[Unit]
+Description=Gunicorn server for DOMAIN
+
+[Service]
+Restart=on-failure
+User=kate
+WorkingDirectory=/home/kate/sites/DOMAIN
+EnvironmentFile=/home/kate/sites/DOMAIN/.env
+
+ExecStart=/home/kate/sites/DOMAIN/virtualenv/bin/gunicorn \
+    --bind unix:/tmp/DOMAIN.socket \
+    billow.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

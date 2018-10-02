@@ -1,0 +1,76 @@
+{% extends 'tags_base.html' %}
+
+
+{% block content %}
+
+{% if bill_list %}
+<div  class="container tags-page" style="margin-top:100px;overflow:hidden;">
+    <div class="tags-section text-center col-md-12">
+        <h1>Bills</h1>
+        <p>Find bills you're interested in.</p>
+        <hr>
+        
+    </div>
+<div class="col-md-3 hidden-xs hidden-sm">
+    <h2>Filter</h2>
+    <div class="box-break col-md-12"></div>
+    <div class="tagsort-tags-container"></div>
+</div>
+<div class="col-md-9">
+    <h2>Search</h2>
+    <div class="box-break col-md-12"></div>
+    <input class="input-lg" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Bills" title="Type in a name" />
+<ul id="bill-list">
+    {% for bill in bill_list %}
+    {% if bill.category.all %}
+    <li>
+    <div id="item" class="item-to-filter col-md-12 item-box" data-item-tags="{% for category in bill.category.all %} {{ category }}{% if not forloop.last %}, {% endif %}{% endfor %}">
+        <div class="col-md-9">
+            <h1 class="item-style"><a href="{% url 'bill:detail' bill.id %}">{{ bill.title }}</a></h1>
+            <p>{{ bill.description }}</p>
+            <p class="tags">{% for category in bill.category.all %} {% if category == '' %}Other{% else %}{{ category }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+            <p class="item-description hidden">{{ bill.title }} {{ bill.description }} {{ bill.category.all }} </p>
+        </div>
+        <div class="col-md-3 tag-button">
+            <a href="{% url 'bill:detail' bill.id %}" class="btn btn-default btn-lg page-scroll">Read More</a>
+        </div>
+    </div>
+    </li>
+
+    {% endif %}
+    {% endfor %}
+</ul>
+</div>
+
+
+<div class="box-break col-md-12"></div>
+
+</div>
+
+{% else %}
+<div  class="container" style="margin-top:100px;overflow:hidden;">
+<p>No bills are available.</p>
+</div>
+
+{% endif %}
+
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("bill-list");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByClassName("item-description")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+
+{% endblock %}

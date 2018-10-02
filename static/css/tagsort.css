@@ -1,0 +1,181 @@
+.tagsort-tags-container span {
+    display: inline-block;
+    border: 2px dotted #CCC;
+    width: 80%;
+    color: #222222;
+    font-size: 16px;
+    text-align:center;
+    line-height: 16px;
+    padding: 2% 10px;
+    margin: 5px;
+    cursor: pointer;
+     /*border-radius: 12px 12px 12px 12px;
+     -moz-border-radius: 12px 12px 12px 12px;
+     -webkit-border-radius: 12px 12px 12px 12px;
+     -webkit-transition: all 0.2s ease-in-out;
+     -moz-transition: all 0.2s ease-in-out;
+     -o-transition: all 0.2s ease-in-out; */
+    transition: all 0.2s ease-in-out;
+}
+.tagsort-tags-container span:hover {
+    border: 2px solid #DAD716;
+    color: #FFF;
+    background-color: #DAD716;
+    
+}
+.tagsort-tags-container span.tagsort-active {
+    border: 2px solid #DAD716;
+    color: #000;
+    background-color: transparent;
+}
+
+.item-box {
+    border-top: 2px solid #54004A;
+    background-color: transparent;
+    position: relative;
+    margin: 20px 0 0 0;
+}
+
+.item-box h1{
+    font-size:20px;
+}
+
+.item-box p{
+    font-size:14px;
+}
+
+.tag-button {
+    margin-top: 5%;
+    margin-left: -10%;
+    position: relative;
+    
+}
+
+.tags {
+    color: #DAD716;
+    font-size: 12px;
+}
+
+.tags-page h2 {
+    font-size: 20px;
+}
+
+.box-break {
+    height: 20px;
+    background-color: transparent;
+}
+
+.bill-search-list {
+    padding: 100px;
+}
+
+.bill-search-list h1{
+    font-size: 30px;
+    color: #54004a;
+    text-align:center;
+    margin-top: 100px;
+}
+
+.bill-search-list h2{
+    font-size: 20px;
+    color: #54004a;
+    text-align:center;
+    padding: 20px;
+}
+
+.bill-search-list p{
+    font-size: 15px;
+    color: #222;
+    text-align:center;
+    padding: 10px;
+}
+
+/** Tagsort for TDs **/
+
+.td-list span {
+    display: inline-block;
+    border: 0;
+    width: 18%;
+    color: #222222;
+    font-size: 16px;
+    text-align:left;
+    line-height: 10px;
+    padding: 0px;
+    margin: 5px;
+    cursor: pointer;
+    /* border-radius: 12px 12px 12px 12px;
+     -moz-border-radius: 12px 12px 12px 12px;
+     -webkit-border-radius: 12px 12px 12px 12px;
+     -webkit-transition: all 0.2s ease-in-out;
+     -moz-transition: all 0.2s ease-in-out;
+     -o-transition: all 0.2s ease-in-out; */
+    transition: all 0.2s ease-in-out;
+}
+.td-list span:hover {
+    border: 0px solid #DAD716;
+    color: #DAD716;
+    background-color: transparent;
+    
+}
+.td-list span.tagsort-active {
+    border: 0px solid #DAD716;
+    color: #DAD716;
+    background-color: transparent;
+}
+
+.td-list-small span {
+    display: inline-block;
+    border: 0px;
+    width: 45%;
+    color: #222222;
+    background-color: #DAD716;
+    font-size: 16px;
+    text-align:center;
+    line-height: 16px;
+    padding: 8px;
+    margin: 2px;
+    cursor: pointer;
+    /* border-radius: 12px 12px 12px 12px;
+     -moz-border-radius: 12px 12px 12px 12px;
+     -webkit-border-radius: 12px 12px 12px 12px;
+     -webkit-transition: all 0.2s ease-in-out;
+     -moz-transition: all 0.2s ease-in-out;
+     -o-transition: all 0.2s ease-in-out; */
+    transition: all 0.2s ease-in-out;
+}
+.td-list-small span:hover {
+    border: 0px solid #DAD716;
+    color: #DAD716;
+    background-color: transparent;
+    
+}
+.td-list-small span.tagsort-active {
+    border: 0px solid #DAD716;
+    color: #DAD716;
+    background-color: transparent;
+}
+
+.td-item-box {
+    border-top: 0px solid #54004A;
+    background-color: transparent;
+    position: relative;
+    margin: 5% 0 0 0;
+}
+
+.td-item-box h1{
+    font-size:20px;
+}
+
+.td-item-box p{
+    font-size:14px;
+}
+
+#td-list .tag-button {
+    margin: 5% 0;
+    position: relative;
+}
+
+#td-list .tags {
+    color: #DAD716;
+    font-size: 12px;
+}

@@ -1,0 +1,280 @@
+{% extends 'bill_base.html' %}
+
+{% block title %}<title>Bill</title>{% endblock %}
+
+{% block content %}
+
+
+
+<div class="bill-container col-md-12">
+    
+    <div class="col-md-12">
+    <div class="space col-md-12"></div>
+    
+    <div class="col-md-8">
+        {% if user.is_authenticated %}
+    	<div class="bill-section-title center col-md-1 col-sm-2 col-xs-2">
+            
+            <form id="post-form" method="post" novalidate>
+                {% csrf_token %}
+                {% for item in form %}
+                    {% ifequal item.name 'favourites' %}
+                        {% for checkbox in item %}
+                            {% ifequal checkbox.choice_label bill.title %}
+                            <!--{{ checkbox.tag }}
+                                {{ checkbox.choice_label }}-->
+                            {% endifequal %}
+                        {% endfor %}
+                    {% endifequal %}
+                {% endfor %}
+
+
+                <button type="submit" class="btn btn-fave"><i id="favourite" class="far {% for person in citizens %}
+                    {% ifequal person.user.username user.username %}
+                    {% for item in person.favourites.all %}
+                    {% ifequal item.title  bill.title %}
+                    fa
+                    {% else %}
+                    {% if forloop.last %}
+                    far
+                    {% endif %}
+                    {% endifequal %}
+                    {% endfor %}
+                    {% endifequal %}
+                    {% endfor %} fa-star" style="color: #DAD716; font-size: 20px; margin-top:-5px;"></i>
+                </button>
+            </form>
+            
+    	</div>
+        {% endif %}
+        <div class="bill-section-title center col-md-11 col-sm-10 col-xs-10">
+            <h2>{{ bill.title }}</h2>
+            
+        </div>
+        {% ifequal bill.updated True %} <!-- change back to True once done editing!! -->
+        <div class="bill-update col-md-12">
+            <h3>UPDATE! This bill has moved on to {{ bill.stage }}</h3>
+        </div>
+        {% endifequal %}
+    	<div class="bill-description col-md-12">
+    		<h3>Description</h3>
+    		<p>{{ bill.description }}</p>
+    		<div class="space"></div>
+    	</div>
+        {% if bill.associated_act.all %}
+        <div class="bill-description col-md-12">
+            <h3>Acts Referred To</h3>
+            {% for act in bill.associated_act.all %}{% for item in bill_list %}{% if act.associated_act == item.title %}
+            <a href="{% url 'bill:detail' item.id %}"><p>{{ act }}</p></a>{% endif %}
+            {% endfor %}{% endfor %}
+            <div class="space"></div>
+        </div>
+        {% endif %}
+    	<div class="pro-con hidden">
+    		<div class="pro-con-header col-md-12">
+    			See Both Sides
+    		</div>
+    		<div class="pro col-md-6">
+    			<h3>Pro</h3>
+    			<hr>
+    			<p>"This bill is good" - TD Murphy</p>
+    		</div>
+    		<div class="con col-md-6">
+    			<h3>Con</h3>
+    			<hr>
+    			<p>"Not so sure this is a good idea" - TD O'Brien</p>
+    		</div>
+    	</div>
+    </div>
+    <div class="col-md-4">
+    	<div class="tag-box-title col-md-12">
+    		<h3>Tags</h3>
+            
+    	</div>
+    	<div class="tag-box col-md-12">
+            <!--<div class="tag-pic col-md-2"><i class="fa fa-ambulance" style="font-size:40px; padding:10px 0;"></i></div>-->
+    		{% for category in bill.category.all %} {{ category }}{% if not forloop.last %}, {% endif %}{% endfor %}
+		</div>
+   		<div class="bill-stats-title col-md-12">
+    		<h3>Bill Details</h3>
+    	</div>
+    	<div class="bill-stats col-md-12">
+    		<h3>Sponsors:</h3>
+            <p>{% for name in bill.sponsor.all %} {{ name }}{% if not forloop.last %},{% endif %}{% endfor %}</p>
+    		<h3>Originating House:</h3>
+    		<p>{{ bill.origin }}</p>
+    		<h3>Stage:</h3>
+            <p>{{ bill.stage }} - {{bill.stage.stage_info}}</p>
+    		<!--<div>
+    		<div class="car-container">
+  				<div class="carousel">
+    				<div class="car-item a current-stage">Dáil<br>Stage 1</div>
+    				<div class="car-item b">Dáil<br>Stage 2</div>
+    				<div class="car-item c">Dáil<br>Stage 3</div>
+    				<div class="car-item d">Dáil<br>Stage 4</div>
+    				<div class="car-item e">Dáil<br>Stage 5</div>
+    				<div class="car-item f">Seanad<br>Stage 6</div>
+    				<div class="car-item g">Seanad<br>Stage 7</div>
+    				<div class="car-item h">Seanad<br>Stage 8</div>
+    				<div class="car-item i">Seanad<br>Stage 9</div>
+    				<div class="car-item j">Seanad<br>Stage 10</div>
+    				<div class="car-item k">President<br>Stage 11</div>
+					<div class="car-item l"><img src="../../../static/img/Logo_300px.png" style="height:60%;"></img></div>
+  				</div>
+			</div>
+			<div class="next"><i class="fa fa-angle-right"></i></div>
+			<div class="prev"><i class="fa fa-angle-left"></i></div>
+  			</div>-->
+   		</div>
+    </div>
+    </div>
+   
+   <div class="take-action col-sm-12 col-xs-12  hidden-md hidden-lg">
+       <div class="take-action-bar">
+           <h3> Take Action! </h3>
+       </div>
+       <div class="take-action-bar-space col-sm-12 col-xs-12"></div>
+       <div class="col-sm-12 col-xs-12">
+       <a href="{% url 'bill:td-list' %}"><div class="col-sm-12 col-xs-12 petition-btn">Contact my Deputy</div></a>
+       
+       <a href="https://my.uplift.ie/"><div class="col-sm-12 col-xs-12 petition-btn">Start A Petition</div></a>
+       
+       <a href="http://petitions.oireachtas.ie/online_petitions.nsf/PetitionForm?openform&type=screening+page&lang=EN&r=0.242465857938506"><div class="col-sm-12 col-xs-12 petition-btn">Submit My Petition Online</div></a>
+       
+       <h3>Share:</h3>
+       
+       <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false"><i class="share-btn fab fa-twitter-square"></i></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+       
+       <a href="https://www.linkedin.com/shareArticle?mini=true&url={% url 'bill:detail' bill.id %}&title={{bill.title}}&summary={{bill.description}}&source=Billow"><i class="share-btn fab fa-linkedin"></i></a>
+       
+       
+       <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"><i class="share-btn fab fa-facebook"></i></a>
+    
+       </div>
+   </div>
+    
+ <div class="col-md-12">
+   <div class="col-md-12">
+    
+    <div class="take-action col-md-12 hidden-sm hidden-xs">
+    	<div class="take-action-bar">
+    		<h3> Take Action! </h3>
+    	</div>
+    	<div class="take-action-bar-space col-md-12"></div>
+    	<div class="col-md-4">
+    		<!-- <ul>
+    			<li><input type="radio" name="tab" value="igotnone" onclick="show1();" /> Contact my MP</li>
+    			<li><input type="radio" name="tab" value="igottwo" onclick="show2();" /> Sign a petition</li>
+    		</ul> -->
+    		<div class="col-md-12">
+				<label class="radio-container"><input type="radio" name="tab" value="igotnone" class="checkmark" onclick="show1();" /> <span class="checkmark"></span>Contact my Deputy
+				</label>
+   			</div>
+   			<div class="col-md-12">
+				<label class="radio-container"><input type="radio" name="tab" value="igotnone" class="checkmark" onclick="show2();" /> <span class="checkmark"></span>Start a Petition
+				</label>
+   			</div>
+   			<div class="col-md-12">
+				<label class="radio-container"><input type="radio" name="tab" value="igotnone" class="checkmark" onclick="show3();" /> <span class="checkmark"></span>Share This!
+				</label>
+   			</div>
+    	</div>
+    	<div class="action-info col-md-8">
+    		<div id="div0" style="text-align: center;">
+				<i class="fa fa-bolt" style="font-size:100px;"></i>
+			</div>
+    		<div id="div1" style="display:none;">
+                <div class="col-md-4" style="margin-top:5px;">
+                <p>Select your constituency:</p>
+    			<!-- CONTACT DEPUTY FORM > take_action_1.html -->
+                    <select id="ridings" class="riding-list input-lg">
+                        <option value="">------</option>
+                        <option value="1">Carlow-Kilkenny</option>
+                        <option value="35">Cavan–Monaghan</option>
+                        <option value="15">Clare</option>
+                        <option value="13">Cork East</option>
+                        <option value="23">Cork North-Central</option>
+                        <option value="27">Cork North-West</option>
+                        <option value="14">Cork South-Central</option>
+                        <option value="38">Cork South-West</option>
+                        <option value="20">Donegal</option>
+                        <option value="10">Dublin Bay North</option>
+                        <option value="31">Dublin Bay South</option>
+                        <option value="6">Dublin Central</option>
+                        <option value="8">Dublin Fingal</option>
+                        <option value="36">Dublin Mid-West</option>
+                        <option value="12">Dublin North-West</option>
+                        <option value="17">Dublin Rathdown</option>
+                        <option value="39">Dublin South-Central</option>
+                        <option value="37">Dublin South-West</option>
+                        <option value="22">Dublin West</option>
+                        <option value="3">Dún Laoghaire</option>
+                        <option value="7">Galway East</option>
+                        <option value="21">Galway West</option>
+                        <option value="34">Kerry</option>
+                        <option value="4">Kildare North</option>
+                        <option value="33">Kildare South</option>
+                        <option value="16">Laois</option>
+                        <option value="30">Limerick City</option>
+                        <option value="29">Limerick County</option>
+                        <option value="5">Longford–Westmeath</option>
+                        <option value="2">Louth</option>
+                        <option value="9">Mayo</option>
+                        <option value="28">Meath East</option>
+                        <option value="24">Meath West</option>
+                        <option value="32">Offaly</option>
+                        <option value="11">Roscommon–Galway</option>
+                        <option value="26">Sligo–Leitrim</option>
+                        <option value="19">Tipperary</option>
+                        <option value="25">Waterford</option>
+                        <option value="18">Wexford</option>
+                        <option value="0">Wicklow</option>
+                    </select>
+                    </div>
+                    {% for place in constituency %}
+                    <div id="{{ place.con_id }}" class="col-md-8 tdsinfo" style="display:none; margin-top:-5px;"><p>
+                        <p>Click on TD for contact information:</p>
+                        {% for dep in td %}{% ifequal place.name dep.constituency.name %}
+                        <a href="{% url 'bill:deputy-detail' dep.pk %}"><div class="col-md-12 petition-btn">{{ dep.name }}</div></a>
+                        
+                        {% endifequal %}{% endfor %}
+                        
+                        <p></div>
+                    {% endfor %}
+			</div>
+   			<div id="div2" style="display:none; margin-top: 5px;">
+				<p>Petition Information</p>
+				<a href="https://my.uplift.ie/" style="color: #222;" class="col-md-6"><div class="petition-btn">Start A Petition</div></a>
+				
+				<a href="http://petitions.oireachtas.ie/online_petitions.nsf/PetitionForm?openform&type=screening+page&lang=EN&r=0.242465857938506" style="color: #222;"  class="col-md-6"><div class="petition-btn">Submit My Petition Online</div></a>
+			</div>
+   			<div id="div3" style="display:none;">
+                <p>Start the conversation:</p>
+               
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false"><i class="share-btn fab fa-twitter-square"></i></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url={% url 'bill:detail' bill.id %}&title={{bill.title}}&summary={{bill.description}}&source=Billow"><i class="share-btn fab fa-linkedin"></i></a>
+
+                
+                <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore"><i class="share-btn fab fa-facebook"></i></a>
+                
+			</div>
+    	</div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+

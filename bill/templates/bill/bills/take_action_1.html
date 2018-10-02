@@ -1,0 +1,54 @@
+<p>Find Your Deputy</h3>
+<p>Select your constituency:</p>
+
+<option value="">---------</option>
+{% for td in tds %}
+<option value="{{ td.pk }}">{{ td.constituency }}</option>
+{% endfor %}
+
+<!--<form action="/constituencies.php">
+    <select name="cars" class="riding-list">
+        <option value="Carlow-Kilkenny">Carlow-Kilkenny</option>
+        <option value="Cavan–Monaghan">Cavan–Monaghan</option>
+        <option value="Clare">Clare</option>
+        <option value="CorkEast">Cork East</option>
+        <option value="CorkNorth-Central">Cork North-Central</option>
+        <option value="CorkNorth-West">Cork North-West</option>
+        <option value="CorkSouth-Central">Cork South-Central</option>
+        <option value="CorkSouth-West">Cork South-West</option>
+        <option value="Donegal">Donegal</option>
+        <option value="DublinBayNorth">Dublin Bay North</option>
+        <option value="DublinBaySouth">Dublin Bay South</option>
+        <option value="DublinCentral">Dublin Central</option>
+        <option value="DublinFingal">Dublin Fingal</option>
+        <option value="DublinMid-West">Dublin Mid-West</option>
+        <option value="DublinNorth-West">Dublin North-West</option>
+        <option value="DublinRathdown">Dublin Rathdown</option>
+        <option value="DublinSouth-Central">Dublin South-Central</option>
+        <option value="DublinSouth-West">Dublin South-West</option>
+        <option value="DublinWest">Dublin West</option>
+        <option value="DunLaoghaire">Dún Laoghaire</option>
+        <option value="GalwayEast">Galway East</option>
+        <option value="GalwayWest">Galway West</option>
+        <option value="Kerry">Kerry</option>
+        <option value="KildareNorth">Kildare North</option>
+        <option value="KildareSouth">Kildare South</option>
+        <option value="Laois">Laois</option>
+        <option value="LimerickCity">Limerick City</option>
+        <option value="LimerickCounty">Limerick County</option>
+        <option value="Longford–Westmeath">Longford–Westmeath</option>
+        <option value="Louth">Louth</option>
+        <option value="Mayo">Mayo</option>
+        <option value="MeathEast">Meath East</option>
+        <option value="MeathWest">Meath West</option>
+        <option value="Offaly">Offaly</option>
+        <option value="Roscommon–Galway">Roscommon–Galway</option>
+        <option value="Sligo–Leitrim">Sligo–Leitrim</option>
+        <option value="Tipperary">Tipperary</option>
+        <option value="Waterford">Waterford</option>
+        <option value="Wexford">Wexford</option>
+        <option value="Wicklow">Wicklow</option>
+    </select>
+    <br><br>
+    <input type="submit" class="petition-btn">
+        </form>-->

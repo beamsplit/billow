@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Deputy</title>{% endblock %}
+
+{% block content %}
+
+<!-- Profile Section -->
+
+<div id="profile-section">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="col-md-1" style="margin-left:-10%;">
+                <input class="btn btn-back" value="< Previous" onClick="window.history.back();return false;">
+            </div>
+        </div>
+        <div class="section-title text-center center">
+           <h2>{{ deputy.name }}</h2>
+            <hr>
+        </div>
+        <div class="col-md-12 id-card">
+            <div class="col-md-4">
+                <img src="{{ deputy.photo }}" style="width:200px;" />
+            </div>
+            <div class="col-md-4">
+                     <h3>Constituency:</h3> <h5>{{ deputy.constituency }}</h5>
+                     <h3>Party:</h3> <h5> {{ deputy.party }}</h5>
+            </div>
+            <div class="col-md-4">
+                <h3>Email:</h3> <h5 style="text-transform:lowercase;"> {{ deputy.email }}</h5>
+                <h3>Phone:</h3> <h5> {{ deputy.phone }}</h5>
+            </div>
+            <div class="col-md-8">
+            </div>
+            <div class="col-md-4">
+                <a href="{{ deputy.url }}" class="btn btn-back" style="margin:10% 0 -10% 150%;">View Official Profile ></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+
+

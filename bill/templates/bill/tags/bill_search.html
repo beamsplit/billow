@@ -1,0 +1,41 @@
+
+{% extends 'tags_base.html' %}
+
+{% block content %}
+
+<div  class="bill-search-list col-md-12">
+<div class="col-md-12">
+    <h1>Search Bills</h1>
+    <hr>
+<input class="input-lg" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search Bill Titles" title="Type in a name" />
+</div>
+<div class="col-md-12" style="margin-top:50px;">
+    <ul id="myUL">
+{% for bill in bill_list %}
+
+    <li><a href="{% url 'bill:detail' bill.id %}">{{ bill.title}}</a></li>
+{% endfor %}
+    </ul>
+</div>
+</div>
+
+
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+{% endblock %}

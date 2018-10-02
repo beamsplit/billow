@@ -1,0 +1,42 @@
+{% block content %}
+
+{% include 'accounts/citizen/_header.html' with active='new' %}
+
+
+
+<div class="card">
+    <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>Quiz</th>
+                <th>Subject</th>
+                <th>Length</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for quiz in quizzes %}
+            <tr>
+                <td class="align-middle">{{ bill.title }}</td>
+                <td class="text-right">
+                    <a href="{% url 'citizen:profile' %}" class="btn btn-primary">Start quiz</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td class="bg-light text-center font-italic" colspan="4">No quiz matching your interests right now.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% if user.is_authenticated %}
+<li>User: {{ user.get_username }}</li>
+<li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+{% else %}
+<li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+{% endif %}
+
+{% endblock %}

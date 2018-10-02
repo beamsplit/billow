@@ -1,0 +1,114 @@
+{% extends 'form_base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}<title>Register</title>{% endblock %}
+
+{% block content %}
+
+<div class="container" style="margin-top:100px;overflow:hidden;">
+<div id="form-section">
+    <div class="section-title text-center center">
+        <h2>Register</h2>
+        <hr>
+    </div>
+<form method="post">
+    {% csrf_token %}
+    <!-- USERNAME -->
+    <div class="col-md-12" >
+    <div class="col-md-12">
+        <div class="col-md-3 form-section">
+            <h3>Choose a username:</h3>
+        </div>
+        <div class="col-md-9">
+            {% render_field form.username class+="input-lg" placeholder=form.username.label %}
+            <!--{% if form.username.help_text %}
+             <small style="color: grey">{{ form.username.help_text }}</small>
+             {% endif %}-->
+            <p id="username_errors" style="color:#FF0000;">{{ form.username.errors }}</p>
+        </div>
+    </div>
+    <!-- EMAIL -->
+        <div class="col-md-12">
+            <div class="col-md-3 form-section">
+                <h3>Enter your email:</h3>
+            </div>
+            <div class="col-md-9">
+                {% render_field form.email class+="input-lg" placeholder=form.email.label %}
+                <!--{% if form.email.help_text %}
+                 <small style="color: grey">{{ form.email.help_text }}</small>
+                 {% endif %}-->
+                <p id="email_errors" style="color:#FF0000;">{{ form.email.errors }}</p>
+            </div>
+        </div>
+    <!-- LOCATION -->
+    <div class="col-md-12">
+        <div class="col-md-3 form-section">
+            <h3>Choose your location:</h3>
+        </div>
+        <div class="col-md-9">
+  
+        {% render_field form.location class+="input-lg" placeholder=form.location.label %}
+            <p id="location_errors" style="color:#FF0000;">{{ form.location.errors }}</p>
+        </div>
+    </div>
+    <!-- PASSWORD -->
+    <div class="col-md-12">
+        <div class="col-md-3 form-section">
+            <h3>Choose a password:</h3>
+        </div>
+        <div class="col-md-9">
+    {% render_field form.password1 class+="input-lg" placeholder=form.password1.label %}
+    <!--{% if field.help_text %}
+     <small style="color: grey">{{ field.help_text }}</small>
+     {% endif %}-->
+    <p id="pw1_errors" style="color: red;">{{ form.password1.errors }}</p>
+    </div>
+    </div>
+    <!-- CONFIRM PASSWORD -->
+    <div class="col-md-12">
+        <div class="col-md-3 form-section">
+            <h3>Confirm your password:</h3>
+        </div>
+        <div class="col-md-9">
+    {% render_field form.password2 class+="input-lg" placeholder="Confirm Password" %}
+    <!--{% if field.help_text %}
+     <small style="color: grey">{{ field.help_text }}</small>
+     {% endif %}-->
+    <p style="color: red;">{{ form.password2.errors }}</p>
+        </div>
+    </div>
+    <!-- CATEGORIES/INTERESTS -->
+    </div>
+    <div class="space"></div>
+    <div class="col-md-12">
+    <div class="col-md-12 form-section">
+        <h3>Select the categories of bills you are interested in following:</h3>
+    </div>
+    </div>
+    <div class="col-md-12">
+        
+                {% for choice in form.interests %}
+                    <label for="id_{{form.interests.name}}_{{ forloop.counter0 }}" class="col-md-3 interests-tag">
+                        {{ choice }}
+                    </label>
+                {% endfor %}
+
+
+    </div>
+    <div class="col-md-12">
+    <!--{% if field.help_text %}
+     <small style="color: grey">{{ field.help_text }}</small>
+     {% endif %}-->
+    <p style="color: red">{{ form.interests.error }}</p>
+    <div class="col-md-12">
+        <input type="submit" class="btn btn-default btn-lg" value="REGISTER" id="id_submit_signup"/>
+        <input type="hidden" name="next" value="{{ next }}" />
+    </div>
+    </div>
+</form>
+
+</div>
+</div>
+
+{% endblock %}

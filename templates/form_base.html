@@ -1,0 +1,182 @@
+<!-- templates/signup.html -->
+<!-- templates/registration/login.html -->
+
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+            {% block title %}<title>Profile</title>{% endblock %}
+            
+            {% load static %}
+            
+            
+            
+            
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+            <link href="{% static 'css/prettyPhoto.css' %}" rel="stylesheet" type="text/css">
+            <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+            
+            <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+            <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome/css/font-awesome.css' %}">
+                
+            <link href="{% static 'css/forms.css' %}" rel="stylesheet" type="text/css">
+                                    
+    <!-- Scripts -->
+    
+             <style>
+                 
+                 input[type="checkbox"] {
+                     opacity:0;
+                 }
+/*** custom checkboxes ***/
+             .interests-tag label{
+                 display: block;
+                 position:relative;
+                 border: 2px dotted #ccc;
+                 width: 100%;
+                 height: 100%;
+                 color: #222222;
+                 font-size: 16px;
+                 text-align:center;
+                 line-height: 16px;
+                 padding: 10% 10% 10% 5%;
+                 margin: 3px;
+                 cursor: pointer;
+                /* -webkit-transition: all 0.2s ease;
+                 -moz-transition: all 0.2s ease;
+                 -o-transition: all 0.2s ease;
+                 transition: all 0.2s ease;*/
+                 
+             }
+             
+             .interests-tag label:hover {
+                 border: 2px solid #DAD716;
+                 color: #FFF;
+                 background-color: #DAD716;
+             }
+             
+             .interests-tag-active  {
+                 display: inline-block;
+                 position:relative;
+                 border: 2px solid #DAD716;
+                 width: 100%;
+                 height: 100%;
+                 color: #222222;
+                 font-size: 16px;
+                 text-align:center;
+                 line-height: 16px;
+                 padding: 10% 10% 10% 5%;
+                 margin: 3px;
+                 cursor: pointer;
+             }
+          
+
+             </style>
+                                    
+    </head>
+    
+    <body>
+        
+        {% block navbar %}
+        
+        <!-- Navigation
+         ==========================================-->
+        <nav id="main-navbar" class="navbar navbar-default navbar-fixed-top">
+            <div class="container navbar-container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'home:index' %}"><img src="{% static 'img/Logo_Name.png' %}" style="height:100%;"></img></a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'home:index' %}">Home</a></li>
+                        <li><a href="{% url 'home:about' %}">About</a></li>
+                        <!--<li><a href="{% url 'home:contact' %}">Contact</a></li>-->
+                        <li><a href="{% url 'bill:tags' %}">Bills</a></li>
+                        <li><a href="{% url 'bill:td-list' %}">Deputies</a></li>
+                        <li class="hidden-xs hidden-sm"><a>|</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'citizen:profile' %}"><i class="fa fa-user"></i> {{ user.get_username }}</li>
+                        <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+                        {% else %}
+                        <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        {% endblock %}
+
+
+
+{% block content %}{% endblock %}
+
+<div id="footer">
+    <div class="container">
+        <div class="fnav">
+            <p>Copyright &copy; Billow</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- jQuery 1.11.1 needed for tagsort to work -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- jQuery local fallback -->
+<script>window.jQuery || document.write('<script src="{% static 'js/jquery.1.11.1.js' %}"><\/script>')</script>
+<!-- Include all compiled plugins (below), or include individual files as needed
+ <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/SmoothScroll.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/jquery.counterup.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/waypoints.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/jquery.prettyPhoto.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/jquery.isotope.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/jqBootstrapValidation.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/contact_me.js' %}"></script>-->
+
+<!-- Javascripts
+ ================================================== -->
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/navbar.js' %}"></script>
+<!--<script src="{% static 'js/tagsort.min.js' %}"></script>
+<script>
+    $('label.tagsort-tags-container').tagSort({
+                                            items: '.item-to-filter',
+                                            tagElement: 'span',
+                                            tagClassPrefix: false,
+                                            itemTagsView: false,
+                                            itemTagsSeperator: ' ',
+                                            itemTagsElement: false,
+                                            sortType: 'exclusive',
+                                            tagAttr: 'data-item-tags',
+                                            fadeTime: 0
+                                            });
+    </script>-->
+    <script>
+        $(function() {
+          
+          $('label input[type="checkbox"]').bind('change', function (v) {
+                                           
+                                           if($(this).is(':checked')) {
+                                           $(this).parent().addClass('interests-tag-active');
+                                           $(this).parent().parent().removeClass('interests-tag');
+                                           } else {
+                                           $(this).parent().removeClass('interests-tag-active');
+                                           $(this).parent().parent().addClass('interests-tag');
+                                           }
+                                           });
+          
+          });
+    </script>
+
+
+
+</body>
+</html>
+

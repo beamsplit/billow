@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Profile</title>{% endblock %}
+        
+        {% block content %}
+        
+        <!-- Profile Section -->
+        
+        
+        <div id="profile-section">
+            <div class="container">
+                
+            <div class="col-md-12">
+                <div class="profile-box col-md-2">
+                    {% if user.is_authenticated %}
+                    <div class="profile-info col-md-12">
+                    <h1>{{ user.get_username }}</h1>
+                    </div>
+                    <div class="profile-info col-md-12">
+                        <a href="{% url 'citizen:citizen_interests' %}">Update Interests</a>
+                    </div>
+                    <div class="profile-info col-md-12">
+                        <a href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+                    </div>
+                    {% else %}
+                    <div class="profile-info col-md-12">
+                    <a href="{% url 'login'%}?next={{request.path}}">Login</a>
+                    </div>
+                    {% endif %}
+                
+                </div>
+                <div class="col-md-10">
+                    <div class="col-md-8">
+                        <div class="section-title text-center center">
+                            <h2>Suggested Bills</h2>
+                            <hr>
+                        </div>
+                        {% for bill in interested_bills %}
+                        <div class="col-md-12 profile-bill-list">
+                            {% ifequal bill.updated True %}<h4>Updated!</h4>{% endifequal %}<h1><a href="{% url 'bill:detail' bill.id %}">{{ bill.title }}</a></h1>
+                            {{ bill.description }}
+                            <p style="color:#DAD716">{% for category in bill.category.all %} {{ category }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                        </div>
+                        {% empty %}
+                    
+                        No bill matching your interests right now.
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-4">
+                        <div class="section-title text-center center">
+                            <h2>Bookmarks</h2>
+                            <hr>
+                        </div>
+                        {% for b in all_bills %}{% for item in fave_bills %}{% ifequal item.title b.title %}
+                        <div class="col-md-12 profile-bill-list">
+                            {% ifequal b.updated True %}<h4>Updated!</h4>{% endifequal %}<h1><a href="{% url 'bill:detail' b.id %}">{{ b.title }}</a></h1>
+                            
+                            <p style="color:#DAD716">{% for category in b.category.all %} {{ category }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                        </div>
+                        {% endifequal %}
+                        {% endfor %}{% endfor %}
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
+        
+{% endblock %}
+
+
+     

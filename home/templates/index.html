@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>Home</title>{% endblock %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+
+<div id="index-user-section" class="text-center">
+    <div class="container">
+        <div class="col-md-8">
+            <div>
+                <h1>Welcome to Billow, {{ user.username }}.</h1>
+                <p>Stay involved with your government by following bills you care about.</p>
+            </div>
+            <h2>What would you like to do?</h2>
+            <div class="space">
+            </div>
+            <a href="{% url 'bill:tags' %}" class="btn btn-default btn-lg page-scroll">See All Bills</a>
+            <a href="{% url 'accounts:profile' %}" class="btn btn-default btn-lg page-scroll">Go To My Profile</a>
+        </div>
+
+        <div class="col-md-4 index-bill-box">
+            <h2>Recent Bills</h2>
+            <ul>
+                {% for bill in selected_bill %}
+                <li class="my-bill-li"><a href="{% url 'bill:detail' bill.id %}">- {{ bill.title }}</a></li>
+                {% empty %}
+                No bill matching your interests right now.
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% else %}
+
+<!-- Header -->
+<header class="text-center" name="home">
+    <div class="intro-text">
+        <h1>Follow legislation you care about.</h1>
+        <p>From proposal to law, track bills that matter to you.</p>
+        <a href="{% url 'bill:tags' %}" class="btn btn-default btn-lg page-scroll">GET STARTED</a>
+    </div>
+</header>
+
+<div class="text-center" style="margin-top:30px;">
+<p>You are not logged in.</p>
+<p><a href="{% url 'login' %}">LOGIN</a> | <a href="{% url 'signup' %}">REGISTER</a></p>
+</div>
+{% endif %}
+
+{% endblock %}
+
+
+

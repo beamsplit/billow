@@ -1,0 +1,63 @@
+#form-section {
+    padding: 120px 0;
+}
+#form-section p {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    color: #fff
+    font-size: 30px;
+    
+}
+
+.form-section h3 {
+    color: #222;
+    font-size: 20px;
+    
+}
+
+.form-template {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #fff
+    font-size: 50px;
+    
+}
+
+.form-input {
+    width: 300px;
+    height: 50px;
+}
+
+/* interests tags on signup_form */
+
+.interests-container span {
+    display: inline-block;
+    border: 2px solid #CCC;
+    width: 10%;
+    color: #222222;
+    font-size: 16px;
+    text-align:center;
+    line-height: 10px;
+    padding: 2% 10px;
+    margin: 1px;
+    cursor: pointer;
+    /* border-radius: 12px 12px 12px 12px;
+     -moz-border-radius: 12px 12px 12px 12px;
+     -webkit-border-radius: 12px 12px 12px 12px;*/
+     -webkit-transition: all 0.2s ease-in-out;
+     -moz-transition: all 0.2s ease-in-out;
+     -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+.interests-container span:hover {
+    border: 1px solid #DAD716;
+    color: #FFF;
+    background-color: #DAD716;
+    
+}
+.interests-container span.tagsort-active {
+    border: 2px solid #DAD716;
+    color: #000;
+    background-color: transparent;
+    
+
