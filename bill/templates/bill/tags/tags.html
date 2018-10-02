@@ -25,13 +25,13 @@
     {% if bill.category.all %}
     <li>
     <div id="item" class="item-to-filter col-md-12 item-box" data-item-tags="{% for category in bill.category.all %} {{ category }}{% if not forloop.last %}, {% endif %}{% endfor %}">
-        <div class="col-md-9">
+        <div class="col-md-10">
             <h1 class="item-style"><a href="{% url 'bill:detail' bill.id %}">{{ bill.title }}</a></h1>
             <p>{{ bill.description }}</p>
             <p class="tags">{% for category in bill.category.all %} {% if category == '' %}Other{% else %}{{ category }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
             <p class="item-description hidden">{{ bill.title }} {{ bill.description }} {{ bill.category.all }} </p>
         </div>
-        <div class="col-md-3 tag-button">
+        <div class="col-md-2 tag-button">
             <a href="{% url 'bill:detail' bill.id %}" class="btn btn-default btn-lg page-scroll">Read More</a>
         </div>
     </div>
