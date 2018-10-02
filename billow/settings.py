@@ -11,8 +11,16 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 from django.contrib.messages import constants as messages
 from django.urls import reverse_lazy
+
+# Create .env file path.
+dotenv_path = join(dirname(__file__), '.env')
+
+# Load file from the path.
+load_dotenv(dotenv_path)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -73,7 +81,7 @@ ROOT_URLCONF = 'billow.urls'
 EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'postmaster@mg.billow.ie'
-EMAIL_HOST_PASSWORD = os.environ['MAILGUN_PW']
+EMAIL_HOST_PASSWORD = os.getenv('MAILGUN_PW')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Kate <kate@billow.ie>'
 
