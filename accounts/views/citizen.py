@@ -56,9 +56,9 @@ class ProfileView(ListView):
         citizen = self.request.user.citizen
         citizen_interests = citizen.interests.values_list('pk', flat=True)
         citizen_favourites = citizen.favourites.values_list('pk', flat=True)
-        context['interested_bills'] = Bill.objects.filter(category__in=citizen_interests).exclude(stage__stage__icontains='Enacted').exclude(stage__stage__icontains='Defeated')
-        context['fave_bills'] = Bill.objects.filter(id__in=citizen_favourites)
-        context['all_bills'] = Bill.objects.all()
+        context['interested_bills'] = Bill.objects.filter(category__in=citizen_interests).exclude(bill_history = 'Enacted').exclude(bill_history = 'Defeated').exclude(bill_history = 'Lapsed').exclude(bill_history = 'Withdrawn').order_by('-date')
+        context['fave_bills'] = Bill.objects.filter(id__in=citizen_favourites).order_by('-date')
+        context['all_bills'] = Bill.objects.all().order_by('-date')
         return context
 
 

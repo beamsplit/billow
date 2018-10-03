@@ -18,6 +18,8 @@ def run():
     #open all tagged bills from csv
     
     for row in bill_df.itertuples():
+        if row[13] == 'SORRY, WE CAN’T FIND THE PAGE YOU WERE LOOKING FOR.':
+            pass
         o = Origin(origin = row[7][19:]) #set origin
         o.save()
         st = Stage(stage = row[9],stage_info = row[10]) # set stage

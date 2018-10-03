@@ -64,6 +64,10 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'accounts',
     'widget_tweaks',
+    'django_otp',
+    'django_otp.plugins.otp_static',
+    'django_otp.plugins.otp_totp',
+    'two_factor',
 ]
 
 MIDDLEWARE = [
@@ -72,16 +76,17 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django_otp.middleware.OTPMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'billow.urls'
 
-EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST = 'smtp-relay.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'postmaster@mg.billow.ie'
-EMAIL_HOST_PASSWORD = os.getenv('MAILGUN_PW')
+EMAIL_HOST_USER = os.getenv('GMAIL_USER')
+EMAIL_HOST_PASSWORD = os.getenv('GMAIL_PW')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Kate <kate@billow.ie>'
 

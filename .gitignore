@@ -4,3 +4,7 @@ __pycache__
 *.pyc
 .env
 .env
+scripts/add_tds.ipynb
+scripts/add_tds_local.py
+scripts/map_models_local.py
+scripts/test_code_here.ipynb
