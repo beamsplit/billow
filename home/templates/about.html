@@ -1,19 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}<title>About</title>{% endblock %}
 
 {% block content %}
 
-<div id="index-user-section" class="text-center col-md-12">
-    <div class="col-md-3"></div>
-    <div class="container col-md-6">
-        <h1> About </h1>
-        
-        <p>Bill <i>noun</i>: a draft of a proposed law presented to parliament for discussion.</p>
-        
-        <p>Billow allows you to follow the path of a bill from its proposal all the way to being signed into law, and helps you take action on those bills you care about most.</p>
+<div id="index-user-section" class="text-center col-md-12" style="margin-top:-50px;">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <h1>Welcome to Billow!</h1>
+            <p>We’re trying to make it easier for you to follow the actions of your government.</p>
+        </div>
+        <div class="col-md-6 hidden-sm hidden-xs">
+            <img src="{% static 'img/Logo_Circle.png' %}" style="height:100px; margin-top:100px;"></img>
+        </div>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-12 space hidden-sm hidden-xs"></div>
+    <div class="col-md-12">
+        <div class="col-md-6 hidden-sm hidden-xs">
+            <img src="{% static 'img/gov_to_ppl.png' %}" style="height:150px; margin-top:0px;"></img>
+        </div>
+        <div class="col-md-6">
+            <p style="margin-top:30px;">We want to help you get updates on legislation as it is discussed and amended, without all the extra noise.</p>
+        </div>
+    </div>
+    <div class="col-md-12 space hidden-sm hidden-xs"></div>
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <p style="margin-top:30px;">We will also make it easier for you to directly reach the lawmakers involved with creating the legislation, your local representatives, and to join the public discussion about particular pieces of legislation.</p>
+        </div>
+        <div class="col-md-6 hidden-sm hidden-xs">
+            <img src="{% static 'img/ppl_to_gov.png' %}" style="height:150px; margin-top:0px;"></img>
+        </div>
+    </div>
+    <div class="col-md-12 space hidden-sm hidden-xs"></div>
+    <div class="col-md-12">
+        <p>Get started by creating an account and telling us the type of legislation you’re interested in following!</p>
+        <div class="col-md-12 space hidden-sm hidden-xs"></div>
+        <a href="{% url 'citizen_signup' %}" class="btn btn-default btn-lg">REGISTER</a>
+    </div>
+    </div>
+    <div class="col-md-2"></div>
+    
 </div>
 
 
