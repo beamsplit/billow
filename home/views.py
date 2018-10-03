@@ -20,7 +20,7 @@ class IndexView(ListView):
     template_name = 'index.html'
     
     def get_queryset(self):
-        queryset = Bill.objects.all().exclude(bill_history = 'Enacted').exclude(bill_history = 'Defeated').exclude(bill_history = 'Lapsed').exclude(bill_history = 'Withdrawn').order_by('-date')
+        queryset = Bill.objects.all().exclude(title = 'Sorry, we can’t find the page you were looking for.').exclude(bill_history = 'Enacted').exclude(bill_history = 'Defeated').exclude(bill_history = 'Lapsed').exclude(bill_history = 'Withdrawn').order_by('-date')
         queryset = queryset[:10]
         return queryset
 
