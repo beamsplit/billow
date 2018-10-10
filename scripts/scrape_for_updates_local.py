@@ -146,7 +146,7 @@ def run():
 
     #Dictionary of Categories
 
-    pickle_in = open("/home/tags_dict.pickle","rb")
+    pickle_in = open("/Users/beamsplit/Documents/BILLOW/BillHub/BillHub/Scrapers/Final_Scripts/tags_dict.pickle","rb")
     cat_dict = pickle.load(pickle_in)
 
 
