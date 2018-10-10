@@ -13,6 +13,7 @@ import requests
 import csv
 from bs4 import BeautifulSoup
 from selenium import webdriver # needed since site uses js to load content
+from pyvirtualdisplay import Display
 
 import pandas as pd
 import pymongo
@@ -89,8 +90,13 @@ def run():
     if len(update_links_list) > 0:
         db.drop_collection(updated_bill_collection)
         # load chromedriver to navigate bill pages
+        
+        display = Display(visible=0, size=(800, 600))
+        display.start()
+        
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
+        options.add_argument('--no-sandbox')
         driver = webdriver.Chrome('./chromedriver',chrome_options=options)
         
         for url in update_links_list:
@@ -277,7 +283,7 @@ def run():
 
     final_updated_bills = db.final_updated_bills
     tagged_updated_bill_df = pd.DataFrame(list(final_updated_bills.find()))
-    tagged_updated_bill_df = tagged_updated_bill_df.drop_duplicates(subset=['title'],keep='last')
+    #tagged_updated_bill_df = tagged_updated_bill_df.drop_duplicates(subset=['title'],keep='last')
     merge_all = pd.merge(tagged_updated_bill_df,merge_acts_list,on='bill_pdf',how="left")
 
     db.final_tagged_updated_bills.drop()
