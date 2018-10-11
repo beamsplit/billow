@@ -90,13 +90,8 @@ def run():
     if len(update_links_list) > 0:
         db.drop_collection(updated_bill_collection)
         # load chromedriver to navigate bill pages
-        
-        display = Display(visible=0, size=(800, 600))
-        display.start()
-        
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
-        options.add_argument('--no-sandbox')
         driver = webdriver.Chrome('./chromedriver',chrome_options=options)
         
         for url in update_links_list:
@@ -152,7 +147,7 @@ def run():
 
     #Dictionary of Categories
 
-    pickle_in = open("/home/tags_dict.pickle","rb")
+    pickle_in = open("/Users/beamsplit/Documents/BILLOW/BillHub/BillHub/Scrapers/Final_Scripts/tags_dict.pickle","rb")
     cat_dict = pickle.load(pickle_in)
 
 
@@ -196,7 +191,7 @@ def run():
             
         result = result.drop(columns=['title_y'])
         result = result.rename(columns={'title_x' : 'title'})
-                          
+        
         db.final_updated_bills.insert_many(result.to_dict('records'))
 
     bill_collection = db['final_updated_bills']
