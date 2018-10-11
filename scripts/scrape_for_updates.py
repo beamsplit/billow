@@ -283,7 +283,7 @@ def run():
 
     final_updated_bills = db.final_updated_bills
     tagged_updated_bill_df = pd.DataFrame(list(final_updated_bills.find()))
-    tagged_updated_bill_df = tagged_updated_bill_df.drop_duplicates(subset=['title'],keep='last')
+    #tagged_updated_bill_df = tagged_updated_bill_df.drop_duplicates(subset=['title'],keep='last')
     merge_all = pd.merge(tagged_updated_bill_df,merge_acts_list,on='bill_pdf',how="left")
 
     db.final_tagged_updated_bills.drop()
