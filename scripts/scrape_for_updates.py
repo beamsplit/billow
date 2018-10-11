@@ -64,7 +64,7 @@ def pdf_url_to_txt(url):
 
 def run():
     
-    client = MongoClient('mongodb://kate:5n43jkqg@localhost:27017/')
+    client = MongoClient('localhost', 27017)
     db = client['bill_db_ireland']
     bill_collection = db['bill_collection']
     updated_bill_collection = db['updated_bill_collection']
