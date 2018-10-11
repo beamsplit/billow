@@ -9,7 +9,7 @@ from datetime import datetime
 from bill.models import Bill, Category, AssociatedAct, Origin, Sponsor, Stage
 
 def run():
-    client = MongoClient('localhost', 27017)
+    client = MongoClient('mongodb://kate:5n43jkqg@localhost:27017/')
     db = client.bill_db_ireland
     bill_collection = db.bill_collection
     final_tagged_bills = db.final_tagged_bills
