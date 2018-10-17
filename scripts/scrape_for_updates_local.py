@@ -68,8 +68,8 @@ def run():
     bill_collection = db['bill_collection']
     updated_bill_collection = db['updated_bill_collection']
     
-    now = datetime.datetime.now().strftime("%Y-%m-%d")
-
+    now = (datetime.datetime.now() - datetime.timedelta(days=10)).strftime("%Y-%m-%d")
+    
     url_head = "https://www.oireachtas.ie/en/bills/"
     update_links_list = []
 
@@ -85,6 +85,14 @@ def run():
                         break
                 update_links_list.append(updated_bill_url)
                 i += 1
+
+    if len(update_links_list) > 0:
+        previous_updates = pd.DataFrame(list(updated_bill_collection.find()))
+        for row in previous_updates.itertuples():
+            for link in update_links_list:
+                if row[11] == link:
+                    update_links_list.remove(link)
+
 
     if len(update_links_list) > 0:
         db.drop_collection(updated_bill_collection)
@@ -138,159 +146,159 @@ def run():
 
         driver.quit()
 
-    updated_bill_collection = db.updated_bill_collection
-    updated_tagged_bills = db.updated_tagged_bills
+        updated_bill_collection = db.updated_bill_collection
+        updated_tagged_bills = db.updated_tagged_bills
 
-    bill_df = pd.DataFrame(list(updated_bill_collection.find()))
-    db.drop_collection(updated_tagged_bills)
+        bill_df = pd.DataFrame(list(updated_bill_collection.find()))
+        db.drop_collection(updated_tagged_bills)
 
-    #Dictionary of Categories
+        #Dictionary of Categories
 
-    pickle_in = open("/Users/beamsplit/Documents/BILLOW/BillHub/BillHub/Scrapers/Final_Scripts/tags_dict.pickle","rb")
-    cat_dict = pickle.load(pickle_in)
+        pickle_in = open("/Users/beamsplit/Documents/BILLOW/BillHub/BillHub/Scrapers/Final_Scripts/tags_dict.pickle","rb")
+        cat_dict = pickle.load(pickle_in)
 
 
-    tags_list = []
-    i = 0
+        tags_list = []
+        i = 0
 
-    for row in bill_df.itertuples():
-        text0 = row[10].lower()
-        text1 = row[5].lower()
-        text_list = text0 + '-' + text1
-        if 'bill entitled an act' in text_list:
-            text_list = text_list.replace('bill entitled an act','').lstrip()
-        i += 1
-        tags_list.append([str(i)] + [text0])
-        for key in cat_dict:
-            for val in cat_dict[key]:
-                if val.lower() in text_list:
-                    if key not in tags_list[i-1]:
-                        tags_list[i-1].append(key)
-        tags_dict = {'bill' : tags_list[i-1][0], 'title' : tags_list[i-1][1]}
-        k = 1
-        tags_dict['tags'] = {}
-        for item in tags_list[i-1][2:]:
-            tags_dict['tags']['tag ' + str(k)] = item
-            k +=1
-        db.updated_tagged_bills.insert_one(tags_dict)
+        for row in bill_df.itertuples():
+            text0 = row[10].lower()
+            text1 = row[5].lower()
+            text_list = text0 + '-' + text1
+            if 'bill entitled an act' in text_list:
+                text_list = text_list.replace('bill entitled an act','').lstrip()
+            i += 1
+            tags_list.append([str(i)] + [text0])
+            for key in cat_dict:
+                for val in cat_dict[key]:
+                    if val.lower() in text_list:
+                        if key not in tags_list[i-1]:
+                            tags_list[i-1].append(key)
+            tags_dict = {'bill' : tags_list[i-1][0], 'title' : tags_list[i-1][1]}
+            k = 1
+            tags_dict['tags'] = {}
+            for item in tags_list[i-1][2:]:
+                tags_dict['tags']['tag ' + str(k)] = item
+                k +=1
+            db.updated_tagged_bills.insert_one(tags_dict)
 
-    updated_tagged_bills = db.updated_tagged_bills
-    final_updated_bills = db.final_updated_bills
-    db.drop_collection(final_updated_bills)
+        updated_tagged_bills = db.updated_tagged_bills
+        final_updated_bills = db.final_updated_bills
+        db.drop_collection(final_updated_bills)
 
-    tagged_bill_df = pd.DataFrame(list(updated_tagged_bills.find()))
+        tagged_bill_df = pd.DataFrame(list(updated_tagged_bills.find()))
 
-    if tagged_bill_df.empty == False:
-        
-        bill_df['title_lower'] = bill_df['title'].str.lower()
-        
-        result = pd.merge(bill_df,
-                          tagged_bill_df[['title','tags']].drop_duplicates(subset=['title']),
-                          left_on='title_lower',right_on='title',how='inner')
+        if tagged_bill_df.empty == False:
             
-        result = result.drop(columns=['title_y'])
-        result = result.rename(columns={'title_x' : 'title'})
-                          
-        db.final_updated_bills.insert_many(result.to_dict('records'))
+            bill_df['title_lower'] = bill_df['title'].str.lower()
+            
+            result = pd.merge(bill_df,
+                              tagged_bill_df[['title','tags']].drop_duplicates(subset=['title']),
+                              left_on='title_lower',right_on='title',how='inner')
+                
+            result = result.drop(columns=['title_y'])
+            result = result.rename(columns={'title_x' : 'title'})
+            
+            db.final_updated_bills.insert_many(result.to_dict('records'))
 
-    bill_collection = db['final_updated_bills']
+        bill_collection = db['final_updated_bills']
 
-    bill_df = pd.DataFrame(list(bill_collection.find()))
+        bill_df = pd.DataFrame(list(bill_collection.find()))
 
-    # run pdf
+        # run pdf
 
-    links_list = []
+        links_list = []
 
-    for row in bill_df.itertuples():
-        links_list.append(row[2])
+        for row in bill_df.itertuples():
+            links_list.append(row[3])
 
-    bill_pdf_dict = {}
+        bill_pdf_dict = {}
 
-    for url in links_list:
-        if url == '':
-            pass
-        else:
-            try:
-                text = pdf_url_to_txt(url)
-                bill_pdf_dict[url] = text
-            except:
+        for url in links_list:
+            if url == '':
                 pass
+            else:
+                try:
+                    text = pdf_url_to_txt(url)
+                    bill_pdf_dict[url] = text
+                except:
+                    pass
 
-    bill_pdf_df = pd.DataFrame(list(bill_pdf_dict.items()), columns=['bill_pdf', 'text'])
+        bill_pdf_df = pd.DataFrame(list(bill_pdf_dict.items()), columns=['bill_pdf', 'text'])
 
-    acts_dict = {}
-    failed_start = []
+        acts_dict = {}
+        failed_start = []
 
-    for row in bill_pdf_df.itertuples():
-        text = row[2]
-        acts = text.find("ACTS REFERRED TO")
-        act = text.find("ACT REFERRED TO")
-        if acts != -1:
-            start = acts
-            end = text.find('\n\n',text.find('\n\n',start)+1)
-            acts_text = text[start:end]
-            acts_list = []
-            i = 0
-            while i < len(acts_text):
-                next_i = acts_text.find('\n', i)
-                if next_i == -1:
-                    acts_list.append(acts_text[i:len(acts_text)])
-                    break
-                else:
-                    acts_list.append(acts_text[i:next_i])
-                    i = next_i + 1
-            for item in acts_list:
-                if item == '':
-                    acts_list.remove(item)
-                elif item == 'ACTS REFERRED TO':
-                    acts_list.remove(item)
-                elif item == '\n':
-                    acts_list.remove(item)
-            acts_dict[row[1]] = acts_list
-        elif act != -1:
-            start = act
-            end = text.find('\n\n',text.find('\n\n',start)+1)
-            acts_text = text[start:end]
-            acts_list = []
-            i = 0
-            while i < len(acts_text):
-                next_i = acts_text.find('\n', i)
-                if next_i == -1:
-                    acts_list.append(acts_text[i:len(acts_text)])
-                    break
-                else:
-                    acts_list.append(acts_text[i:next_i])
-                    i = next_i + 1
-            for item in acts_list:
-                if item == '':
-                    acts_list.remove(item)
-                elif item == 'ACT REFERRED TO':
-                    acts_list.remove(item)
-                elif item == '\n':
-                    acts_list.remove(item)
-            acts_dict[row[1]] = acts_list
-        else:
-            failed_start.append(row[1])
+        for row in bill_pdf_df.itertuples():
+            text = row[2]
+            acts = text.find("ACTS REFERRED TO")
+            act = text.find("ACT REFERRED TO")
+            if acts != -1:
+                start = acts
+                end = text.find('\n\n',text.find('\n\n',start)+1)
+                acts_text = text[start:end]
+                acts_list = []
+                i = 0
+                while i < len(acts_text):
+                    next_i = acts_text.find('\n', i)
+                    if next_i == -1:
+                        acts_list.append(acts_text[i:len(acts_text)])
+                        break
+                    else:
+                        acts_list.append(acts_text[i:next_i])
+                        i = next_i + 1
+                for item in acts_list:
+                    if item == '':
+                        acts_list.remove(item)
+                    elif item == 'ACTS REFERRED TO':
+                        acts_list.remove(item)
+                    elif item == '\n':
+                        acts_list.remove(item)
+                acts_dict[row[1]] = acts_list
+            elif act != -1:
+                start = act
+                end = text.find('\n\n',text.find('\n\n',start)+1)
+                acts_text = text[start:end]
+                acts_list = []
+                i = 0
+                while i < len(acts_text):
+                    next_i = acts_text.find('\n', i)
+                    if next_i == -1:
+                        acts_list.append(acts_text[i:len(acts_text)])
+                        break
+                    else:
+                        acts_list.append(acts_text[i:next_i])
+                        i = next_i + 1
+                for item in acts_list:
+                    if item == '':
+                        acts_list.remove(item)
+                    elif item == 'ACT REFERRED TO':
+                        acts_list.remove(item)
+                    elif item == '\n':
+                        acts_list.remove(item)
+                acts_dict[row[1]] = acts_list
+            else:
+                failed_start.append(row[1])
 
-    acts_df = pd.DataFrame(list(acts_dict.items()), columns=['bill_pdf', 'acts_list'])
-    merge_acts_list = pd.merge(bill_pdf_df,acts_df,on='bill_pdf',how="left")
+        acts_df = pd.DataFrame(list(acts_dict.items()), columns=['bill_pdf', 'acts_list'])
+        merge_acts_list = pd.merge(bill_pdf_df,acts_df,on='bill_pdf',how="left")
 
-    final_updated_bills = db.final_updated_bills
-    tagged_updated_bill_df = pd.DataFrame(list(final_updated_bills.find()))
-    tagged_updated_bill_df = tagged_updated_bill_df.drop_duplicates(subset=['title'],keep='last')
-    merge_all = pd.merge(tagged_updated_bill_df,merge_acts_list,on='bill_pdf',how="left")
+        final_updated_bills = db.final_updated_bills
+        tagged_updated_bill_df = pd.DataFrame(list(final_updated_bills.find()))
+        tagged_updated_bill_df = tagged_updated_bill_df.drop_duplicates(subset=['title'],keep='last')
+        merge_all = pd.merge(tagged_updated_bill_df,merge_acts_list,on='bill_pdf',how="left")
 
-    db.final_tagged_updated_bills.drop()
-    db.final_tagged_updated_bills.insert_many(merge_all.to_dict('records'))
-    db.updated_bills_complete.drop()
+        db.final_tagged_updated_bills.drop()
+        db.final_tagged_updated_bills.insert_many(merge_all.to_dict('records'))
+        db.updated_bills_complete.drop()
 
-    updated_bills_w_acts = pd.DataFrame(list(db.final_tagged_updated_bills.find()))
+        updated_bills_w_acts = pd.DataFrame(list(db.final_tagged_updated_bills.find()))
 
-    if tagged_updated_bill_df.empty == False:
-        
-        result = pd.merge(tagged_updated_bill_df,
-                          updated_bills_w_acts[['title_lower','acts_list','text']],
-                          left_on='title_lower',right_on='title_lower',how='inner')
-                          
-        db.updated_bills_complete.insert_many(result.to_dict('records'))
+        if tagged_updated_bill_df.empty == False:
+            
+            result = pd.merge(tagged_updated_bill_df,
+                              updated_bills_w_acts[['title_lower','acts_list','text']],
+                              left_on='title_lower',right_on='title_lower',how='inner')
+                
+            db.updated_bills_complete.insert_many(result.to_dict('records'))
 

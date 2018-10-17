@@ -69,7 +69,7 @@ def run():
     bill_collection = db['bill_collection']
     updated_bill_collection = db['updated_bill_collection']
 
-    now = datetime.datetime.now().strftime("%Y-%m-%d")
+    now = (datetime.datetime.now() - datetime.timedelta(days=10)).strftime("%Y-%m-%d")
 
     url_head = "https://www.oireachtas.ie/en/bills/"
     update_links_list = []
@@ -86,6 +86,13 @@ def run():
                         break
                 update_links_list.append(updated_bill_url)
                 i += 1
+
+    if len(update_links_list) > 0:
+            previous_updates = pd.DataFrame(list(updated_bill_collection.find()))
+            for row in previous_updates.itertuples():
+                for link in update_links_list:
+                    if row[11] == link:
+                        update_links_list.remove(link)
 
     if len(update_links_list) > 0:
         db.drop_collection(updated_bill_collection)
@@ -203,7 +210,7 @@ def run():
         links_list = []
 
         for row in bill_df.itertuples():
-            links_list.append(row[2])
+            links_list.append(row[3])
 
         bill_pdf_dict = {}
 

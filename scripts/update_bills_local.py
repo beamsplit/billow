@@ -22,7 +22,7 @@ def run():
         if delta.days > 6:
             item.updated = False
     
-    client = MongoClient('mongodb://kate:5n43jkqg@localhost:27017/bill_db_ireland?authSource=bill_db_ireland')
+    client = MongoClient('localhost', 27017)
     db = client.bill_db_ireland
     updated_bills_complete = db.updated_bills_complete
     
