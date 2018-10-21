@@ -69,7 +69,7 @@ def run():
     bill_collection = db['bill_collection']
     updated_bill_collection = db['updated_bill_collection']
 
-    now = (datetime.datetime.now() - datetime.timedelta(days=10)).strftime("%Y-%m-%d")
+    now = (datetime.datetime.now() - datetime.timedelta(days=20)).strftime("%Y-%m-%d")
 
     url_head = "https://www.oireachtas.ie/en/bills/"
     update_links_list = []
