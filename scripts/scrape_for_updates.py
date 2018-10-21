@@ -99,7 +99,7 @@ def run():
         # load chromedriver to navigate bill pages
         options = webdriver.ChromeOptions()
         options.add_argument('headless')
-        driver = webdriver.Chrome('../chromedriver',chrome_options=options)
+        driver = webdriver.Chrome('./chromedriver',chrome_options=options)
         
         for url in update_links_list:
             driver.get(url)
