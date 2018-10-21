@@ -88,11 +88,11 @@ def run():
                 i += 1
 
     if len(update_links_list) > 0:
-            previous_updates = pd.DataFrame(list(updated_bill_collection.find()))
-            for row in previous_updates.itertuples():
-                for link in update_links_list:
-                    if row[11] == link:
-                        update_links_list.remove(link)
+        previous_updates = pd.DataFrame(list(updated_bill_collection.find()))
+        for row in previous_updates.itertuples():
+            for link in update_links_list:
+                if row[11] == link:
+                    update_links_list.remove(link)
 
     if len(update_links_list) > 0:
         db.drop_collection(updated_bill_collection)
