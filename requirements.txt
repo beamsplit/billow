@@ -17,7 +17,7 @@ gunicorn==19.9.0
 idna==2.7
 numpy==1.15.1
 pandas==0.23.4
-paramiko==2.4.2
+paramiko==2.10.1
 pdfminer.six==20170720
 phonenumberslite==8.9.14
 psycopg2==2.7.5
